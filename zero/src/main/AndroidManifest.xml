@@ -45,7 +45,8 @@
             android:name="com.zero.zerolivewallpaper.wallpaper.MyWallpaperService"
             android:enabled="true"
             android:label="Zero"
-            android:permission="android.permission.BIND_WALLPAPER">
+            android:permission="android.permission.BIND_WALLPAPER"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.service.wallpaper.WallpaperService" />
             </intent-filter>
@@ -58,9 +59,10 @@
         <service
             android:name="com.zero.zerolivewallpaper.wallpaper.LiveWallpaperService"
             android:enabled="true"
-            android:label="Zero"
+            android:label="ZeroLiveWallpaper"
             android:process=":wallpaper"
-            android:permission="android.permission.BIND_WALLPAPER">
+            android:permission="android.permission.BIND_WALLPAPER"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.service.wallpaper.WallpaperService" />
             </intent-filter>

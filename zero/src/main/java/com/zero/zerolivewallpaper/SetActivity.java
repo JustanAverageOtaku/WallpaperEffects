@@ -271,7 +271,7 @@ public class SetActivity extends AppCompatActivity
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             // Show live-wallpaper preview
-                            openLWSetter(context, "uri", 0);
+                            openLWSetter(context, "uri", 2);
                         }
                     })
                     .setNegativeButton(R.string.common_cancel, null)

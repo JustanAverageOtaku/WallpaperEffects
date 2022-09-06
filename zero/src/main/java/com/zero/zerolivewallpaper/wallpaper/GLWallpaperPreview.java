@@ -3,6 +3,7 @@ package com.zero.zerolivewallpaper.wallpaper;
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.util.AttributeSet;
+import android.view.SurfaceHolder;
 
 public class GLWallpaperPreview extends GLSurfaceView {
 

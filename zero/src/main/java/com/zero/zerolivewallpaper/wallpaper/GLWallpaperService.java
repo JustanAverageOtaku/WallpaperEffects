@@ -3,18 +3,27 @@ package com.zero.zerolivewallpaper.wallpaper;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.service.wallpaper.WallpaperService;
 import android.view.SurfaceHolder;
 
+import java.util.concurrent.Executor;
+
 @SuppressLint("Registered")
 public class GLWallpaperService extends WallpaperService {
     private IBinder mBinder;
 
     @Override
-    public Engine onCreateEngine() {
+    public boolean bindService(Intent service, int flags, Executor executor, ServiceConnection conn) {
+        return super.bindService(service, flags, executor, conn);
+    }
+
+    @Override
+    public Engine onCreateEngine()
+    {
         return null;
     }
 

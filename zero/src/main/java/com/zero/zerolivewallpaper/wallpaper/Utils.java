@@ -93,14 +93,27 @@ public class Utils {
 
     // Open system live wallpaper setter
     public static void openLWSetter(Context context, String uri, int effectId) {
-        String u = "------------------------------------I Am URI!----------------------------";
+        //String u = "------------------------------------I Am URI!----------------------------";
+
+
         Intent intent = new Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER);
         //Intent intent = new Intent(context, MyWallpaperService.class);
         //Intent intent = new Intent(context, LiveWallpaperService.class);
-        intent.putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT, new ComponentName(context, MyWallpaperService.class));
+        if (effectId == 2)
+        {
+            LiveWallpaperService.rawuri = R.raw.abstract_video;
+            intent.putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT, new ComponentName(context, LiveWallpaperService.class));
+        }
+        else
+        {
+            intent.putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT, new ComponentName(context, MyWallpaperService.class));
+        }
         //intent.putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT, new ComponentName(context, MyWallpaperService.class));
         //intent.putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT, new ComponentName(context, LiveWallpaperService.class));
-        intent.putExtra("uri", u);
+        //intent.putExtra("uri", u);
+        MyWallpaperService.uri = uri;
+        MyWallpaperService.effectId = effectId;
+
         try {
             context.startActivity(intent);
         } catch (ActivityNotFoundException e) {

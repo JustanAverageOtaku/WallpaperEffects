@@ -12,6 +12,8 @@ import android.media.MediaPlayer;
 import android.service.wallpaper.WallpaperService;
 import android.view.SurfaceHolder;
 
+import com.zero.zerolivewallpaper.R;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -19,53 +21,35 @@ import java.io.IOException;
 @SuppressLint("Registered")
 public class LiveWallpaperService extends WallpaperService
 {
-    public static final String VIDEO_PARAMS_CONTROL_ACTION = "com.zero.zerolivewallpaper";
-    public static final String KEY_ACTION = "music";
-    public static final boolean ACTION_MUSIC_UNMUTE = false;
-    public static final boolean ACTION_MUSIC_MUTE = true;
+    public static String uri;
+    public static int rawuri;
 
-    //public static void muteMusic(Context context) {
-    //    Intent intent = new Intent(LiveWallpaperService.VIDEO_PARAMS_CONTROL_ACTION);
-    //    intent.putExtra(LiveWallpaperService.KEY_ACTION, LiveWallpaperService.ACTION_MUSIC_MUTE);
-    //    context.sendBroadcast(intent);
-    //}
-//
-    //public static void unmuteMusic(Context context) {
-    //    Intent intent = new Intent(LiveWallpaperService.VIDEO_PARAMS_CONTROL_ACTION);
-    //    intent.putExtra(LiveWallpaperService.KEY_ACTION, LiveWallpaperService.ACTION_MUSIC_UNMUTE);
-    //    context.sendBroadcast(intent);
-    //}
+    public Engine onCreateEngine() {
+        return new VideoEngine();
+    }
 
     class VideoEngine extends Engine {
+        private final String TAG = getClass().getSimpleName();
         private MediaPlayer mediaPlayer;
-        private BroadcastReceiver broadcastReceiver;
 
-        @Override
-        public void onCreate(SurfaceHolder surfaceHolder) {
-            super.onCreate(surfaceHolder);
-            IntentFilter intentFilter = new IntentFilter(LiveWallpaperService.VIDEO_PARAMS_CONTROL_ACTION);
-            registerReceiver(broadcastReceiver = new BroadcastReceiver() {
-                @Override
-                public void onReceive(Context context, Intent intent) {
-                    boolean action = intent.getBooleanExtra(KEY_ACTION, false);
-                    if (action) {
-                        mediaPlayer.setVolume(0, 0);
-                    } else {
-                        mediaPlayer.setVolume(1.0f, 1.0f);
-                    }
-                }
-            }, intentFilter);
+        public VideoEngine()
+        {
+            mediaPlayer = MediaPlayer.create(getBaseContext(), R.raw.abstract_video);
+            mediaPlayer.setLooping(true);
         }
 
-        @SuppressLint("SdCardPath")
         @Override
         public void onSurfaceCreated(SurfaceHolder holder) {
             super.onSurfaceCreated(holder);
+
+
+            //mediaPlayer.setSurface(holder.getSurface());
+            //mediaPlayer.start();
             mediaPlayer = new MediaPlayer();
             mediaPlayer.setSurface(holder.getSurface());
             try {
                 AssetFileDescriptor descriptor;
-                descriptor = getAssets().openFd( "Abstract_00.mp3" );
+                descriptor = getAssets().openFd("Fantasy_00.mp4");
                 mediaPlayer.reset();
                 //mediaPlayer.setDataSource(getFilesDir() + "/file.mp4");
                 mediaPlayer.setDataSource(descriptor.getFileDescriptor(), descriptor.getStartOffset(), descriptor.getLength());
@@ -74,9 +58,9 @@ public class LiveWallpaperService extends WallpaperService
                 descriptor.close();
                 mediaPlayer.prepare();
                 mediaPlayer.start();
-                File file = new File(getFilesDir() + "/unmute");
-                if (file.exists()) mediaPlayer.setVolume(1.0f, 1.0f);
-                else mediaPlayer.setVolume(0, 0);
+                //    File file = new File(getFilesDir() + "/unmute");
+                //    if (file.exists()) mediaPlayer.setVolume(1.0f, 1.0f);
+                //    else mediaPlayer.setVolume(0, 0);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -103,12 +87,7 @@ public class LiveWallpaperService extends WallpaperService
         public void onDestroy() {
             super.onDestroy();
             if (mediaPlayer != null) mediaPlayer.release();
-            unregisterReceiver(broadcastReceiver);
+            //unregisterReceiver(broadcastReceiver);
         }
     }
-
-    public Engine onCreateEngine() {
-        return new VideoEngine();
-    }
-
 }

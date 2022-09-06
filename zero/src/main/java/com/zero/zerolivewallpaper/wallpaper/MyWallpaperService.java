@@ -1,14 +1,40 @@
 package com.zero.zerolivewallpaper.wallpaper;
 
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.Bundle;
 import android.view.SurfaceHolder;
 
-public class MyWallpaperService extends GLWallpaperService {
+import java.util.concurrent.Executor;
+
+public class MyWallpaperService extends GLWallpaperService
+{
+    public static String uri;
+    public static int effectId;
 
     @Override
-    public Engine onCreateEngine() {
+    public Engine onCreateEngine()
+    {
         return new OpenGLES2Engine();
     }
 
+    //@Override
+    //public boolean bindService(Intent service, int flags, Executor executor, ServiceConnection conn) {
+    //    super.bindService(service, flags, executor, conn);
+//
+    //    Bundle extras = service.getExtras();
+    //    if (extras == null)
+    //    {
+    //        System.out.println("~~~~~~~~~~~~~~~~~Empty Extras");
+    //    }
+    //    else
+    //    {
+    //        String uri = extras.getString("uri");
+    //        System.out.println(uri);
+    //    }
+//
+    //    return true;
+    //}
 
     private class OpenGLES2Engine extends GLWallpaperService.GLEngine {
 
@@ -19,6 +45,9 @@ public class MyWallpaperService extends GLWallpaperService {
         public void onCreate(SurfaceHolder surfaceHolder) {
             super.onCreate(surfaceHolder);
 
+            System.out.println("@@@@@@@@@@@@@@@@@@@@ Renderer Set and initiated");
+            System.out.println("@@@@@@@@@@@@@@@@@@@@ " + uri);
+            System.out.println("@@@@@@@@@@@@@@@@@@@@ " + effectId);
             // Set version
             setEGLContextClientVersion(2);
             setPreserveEGLContextOnPause(true);
